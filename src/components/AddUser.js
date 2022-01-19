@@ -1,7 +1,51 @@
-import React from "react";
+
+import React,{useState} from "react";
 import { Row, Col,Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
 import AdminHeader from './AdminHeader';
+import axiosInstance from "../helpers/axios";
 const AddUser = () => {
+
+    const [username, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLasName] = useState("");
+    const [email, setEmail] = useState("");
+    const [role, setRole] = useState("");
+    
+    const handle = () =>{
+
+        const data={
+            username:username,
+            password:password,
+            firstname:firstname,
+            lastname:lastname,
+            email:email,
+            role:role
+        }
+        var token = localStorage.getItem("token")
+        console.log(token)
+        console.log(data)
+       
+        const config = {
+            headers: { Authorization: `Bearer ${token}`, 
+            'Access-Control-Allow-Origin' : '*',
+            'Content-Type': 'application/json',
+           
+         }
+        };
+
+         
+        axiosInstance.post('servicediscovery/addusers',data,config
+        )
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+
+    }
     return (
         <Container fluid>
             <AdminHeader />
@@ -22,6 +66,7 @@ const AddUser = () => {
                             <Input
                                 name="firstname"
                                 placeholder="First Name"
+                                onChange={(e)=>{setFirstName(e.target.value)}}
                                 type="text"
                             />
                         </FormGroup>
@@ -35,6 +80,7 @@ const AddUser = () => {
                             <Input
                                 name="lastname"
                                 placeholder="Last Name"
+                                onChange={(e)=>{setLasName(e.target.value)}}
                                 type="text"
                             />
                         </FormGroup>
@@ -48,6 +94,7 @@ const AddUser = () => {
                             <Input
                                 name="Username"
                                 placeholder="Username"
+                                onChange={(e)=>{setUserName(e.target.value)}}
                                 type="text"
                             />
                         </FormGroup>
@@ -61,6 +108,7 @@ const AddUser = () => {
                             <Input
                                 name="password"
                                 placeholder="Password"
+                                onChange={(e)=>{setPassword(e.target.value)}}
                                 type="password"
                             />
                         </FormGroup>
@@ -74,6 +122,7 @@ const AddUser = () => {
                             <Input
                                 name="email"
                                 placeholder="Email"
+                                onChange={(e)=>{setEmail(e.target.value)}}
                                 type="text"
                             />
                         </FormGroup>
@@ -87,10 +136,11 @@ const AddUser = () => {
                             <Input
                                 name="role"
                                 placeholder="Role"
+                                onChange={(e)=>{setRole(e.target.value)}}
                                 type="text"
                             />
                         </FormGroup>
-                        <Button className="mt-3 btn-secondary btn-lg">
+                        <Button onClick={handle} className="mt-3 btn-secondary btn-lg">
                             Add
                         </Button>
                     </Form>

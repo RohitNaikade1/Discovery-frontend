@@ -3,7 +3,8 @@ import { Row, Col, Navbar, NavbarBrand, Form, FormGroup, Label, Input, Button, C
 //import {LocalForm,Control,Errors} from "react-redux-form";
 import axiosInstance from "../helpers/axios";
 import jwt_decode from "jwt-decode";
-
+import { Navigate } from 'react-router-dom'
+import History from "../helpers/helpers";
 const Login = () => {
 
     const [username, setUserName] = useState("");
@@ -23,7 +24,18 @@ const Login = () => {
             var token = res.data.token;
             var decoded = jwt_decode(token);
             console.log(decoded);
-            console.log(decoded.role)            
+            localStorage.setItem("token", token);
+            console.log(decoded.role)   
+            let role = decoded.role
+
+            if (role == "admin") {
+                History.push('/admin')
+                window.location.reload();
+
+            }else{
+                History.push('/user')
+                window.location.reload();
+            }    
         })
         .catch(err => {
             console.log(err)
