@@ -1,5 +1,6 @@
 import React from "react";
 import { NavbarText, UncontrolledDropdown, DropdownToggle, Navbar, DropdownItem, DropdownMenu, Collapse, Nav, NavbarBrand, NavbarToggler, NavItem, NavLink, Container } from 'reactstrap';
+import { signout } from '../helpers/auth'
 const Header = () => {
   return (
     <div>
@@ -53,7 +54,7 @@ const Header = () => {
             </UncontrolledDropdown>
           </Nav>
           <NavbarText>
-            <NavLink href="/components/">
+            <NavLink onClick={signout}>
               Logout
             </NavLink>
 

@@ -14,14 +14,14 @@ function App() {
     <div className="App">
       
       <Routes>
-        <Route exact path="/" element={ <Header />} />
+        {/* <Route exact path="/" element={ <Header />} /> */}
         <Route path="admin" element={ <Admin />} />
         <Route path="user" element={ <User />} />
         <Route path="adduser" element={ <AddUser />} />
         <Route path="edituser" element={ <EditUser />} />
         <Route path ="userlist" element={<UserList/>}/>
 
-        <Route path="login" element={<Login />} />
+        <Route path="/" element={<Login />} />
       </Routes>
       
     </div>
