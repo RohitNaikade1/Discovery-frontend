@@ -27,18 +27,16 @@ const AddUser = () => {
         }
         var token = localStorage.getItem("token")
         console.log(token)
-        console.log(data)
+        
 
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':"*",
+                'Access-Control-Allow-Headers':'*'
 
             }
         };
-
-
         axiosInstance.post('servicediscovery/addusers', data, config
         )
             .then(res => {

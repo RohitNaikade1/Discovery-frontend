@@ -4,7 +4,7 @@ import history from './helpers';
 export const isAdmin = () => {
     var token=localStorage.getItem('token')
     var decoded = jwt_decode(token);
-    console.log(decoded);
+    // console.log(decoded);
 
     if(decoded.role == "admin"){
         return true;
@@ -16,7 +16,7 @@ export const isAdmin = () => {
 export const isUser = () => {
     var token=localStorage.getItem('token')
     var decoded = jwt_decode(token);
-    console.log(decoded);
+    // console.log(decoded);
 
     if(decoded.role == "user"){
         return true;
@@ -29,7 +29,7 @@ export const isUser = () => {
 export const isAuth = () => {
 
     var token=localStorage.getItem('token')
-    console.log(token)
+    // console.log(token)
     if (token !== null ) {
         return true;
     }else{

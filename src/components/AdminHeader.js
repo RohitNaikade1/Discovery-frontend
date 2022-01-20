@@ -1,6 +1,6 @@
 import React from "react";
 import { NavbarText, UncontrolledDropdown, DropdownToggle, Navbar, DropdownItem, DropdownMenu, Collapse, Nav, NavbarBrand, NavbarToggler, NavItem, NavLink, Container } from 'reactstrap';
-import { signout } from '../helpers/auth'
+import { signout,isAdmin } from '../helpers/auth'
 const Header = () => {
   return (
     <div>
@@ -23,11 +23,15 @@ const Header = () => {
                 Credentials
               </NavLink>
             </NavItem>
+
+            
             <NavItem>
               <NavLink className="nav-link active" href="">
                 Registrations
               </NavLink>
             </NavItem>
+            
+            
             <UncontrolledDropdown
               inNavbar
               nav

@@ -4,13 +4,14 @@ import { isAuth,isAdmin,isUser } from '../helpers/auth';
 import History from "../helpers/helpers";
 import { Navigate } from "react-router-dom";
 
+
 const PrivateRouter = ({ component: Component, ...rest }) => {
 
     return (
         <Route
             {...rest}
             render={props => 
-                isAuth() && isAdmin() ? <Component {...props} /> : <Navigate to="/login" />
+                isAuth() && isAdmin() ? <Component {...props} /> : <Navigate to="/" />
             }
         />
     )
