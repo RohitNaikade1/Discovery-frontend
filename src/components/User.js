@@ -9,7 +9,7 @@ const User = () => {
     if(isAuth() && isUser()){
         return (
             <Container fluid>
-                <UserHeader />
+                {/* <UserHeader /> */}
                 <Row>
                     <h2>Logged in successfully!</h2>
                     <p>This is user dashboard.</p>

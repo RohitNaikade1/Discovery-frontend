@@ -9,7 +9,7 @@ const Admin = () => {
     if(isAuth() && isAdmin()){
         return (
             <Container fluid>
-                <AdminHeader />
+                {/* <AdminHeader /> */}
                 <Row>
                     <h2>Logged in successfully!</h2>
                     <p>This is admin dashboard.</p>

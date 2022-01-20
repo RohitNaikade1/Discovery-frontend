@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Row, Col, Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
 import AdminHeader from './AdminHeader';
@@ -52,7 +51,7 @@ const AddUser = () => {
     if (isAuth() && isAdmin()) {
         return (
             <Container fluid>
-                <AdminHeader />
+                {/* <AdminHeader /> */}
                 <Row>
                     <h2 className="mt-2">Add New User</h2>
                 </Row>
