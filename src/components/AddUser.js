@@ -4,7 +4,7 @@ import AdminHeader from './AdminHeader';
 import axiosInstance from "../helpers/axios";
 import { isAuth, isAdmin, isUser } from '../helpers/auth';
 import { Navigate } from "react-router-dom";
-
+import History from "../helpers/helpers";
 const AddUser = () => {
 
     const [username, setUserName] = useState("");
@@ -25,14 +25,12 @@ const AddUser = () => {
             role: role
         }
         var token = localStorage.getItem("token")
-        console.log(token)
+        console.log(data)
         
 
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                'Access-Control-Allow-Origin':"*",
-                'Access-Control-Allow-Headers':'*'
+                Authorization: `Bearer ${token}`
 
             }
         };
@@ -40,6 +38,9 @@ const AddUser = () => {
         )
             .then(res => {
                 console.log(res)
+                History.push("/adduser")
+                window.location.reload()
+
             })
             .catch(err => {
                 console.log(err)
@@ -51,7 +52,7 @@ const AddUser = () => {
     if (isAuth() && isAdmin()) {
         return (
             <Container fluid>
-                {/* <AdminHeader /> */}
+                <AdminHeader />
                 <Row>
                     <h2 className="mt-2">Add New User</h2>
                 </Row>

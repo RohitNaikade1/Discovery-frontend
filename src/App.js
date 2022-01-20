@@ -10,6 +10,8 @@ import EditUser from './components/EditUser';
 import UserList from './components/UserList';
 import PrivateRouter from './components/PrivateRouter';
 function App() {
+
+  const data={}
   return (
     <div className="App">
       {/* <Header /> */}
@@ -20,7 +22,7 @@ function App() {
         <Route path="admin" element={ <Admin />} />
         <Route path="user" element={ <User />} />
         <Route path="adduser" element={ <AddUser />} />
-        <Route path="edituser" element={ <EditUser />} />
+        <Route path="edituser" element={ <EditUser/>} />
         <Route path ="userlist" element={<UserList/>}/>
 
         

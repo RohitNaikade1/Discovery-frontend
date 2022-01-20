@@ -4,8 +4,8 @@ import AdminHeader from './AdminHeader';
 import { isAuth,isAdmin,isUser } from '../helpers/auth';
 import { Navigate } from "react-router-dom";
 
-const EditUser = () => {
-
+const EditUser = (props) => {
+    console.log(props)
     if(isAuth() && isAdmin()){
         return (
             <Container fluid>
