@@ -34,8 +34,8 @@ const AddCredentials = ()=>{
         )
             .then(res => {
                 console.log(res)
-                // History.push("/addcredentials")
-                // window.location.reload()
+                History.push("/addcredentials")
+                window.location.reload()
 
             })
             .catch(err => {

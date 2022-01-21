@@ -1,7 +1,8 @@
 import { constants } from "../Actions/constants"
 
 const initState={
-    users:{}
+    users:{},
+    profile:{}
 }
 
 export const userReducer=(state=initState,action)=>{
@@ -11,6 +12,11 @@ export const userReducer=(state=initState,action)=>{
             return state={
                 ...state,
                 users:action.payload.usersData
+            }
+        case constants.GET_PROFILE:
+            return state={
+                ...state,
+                profile:action.payload.profileData
             }
         default:
             return state

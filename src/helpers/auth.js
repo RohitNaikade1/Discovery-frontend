@@ -4,8 +4,7 @@ import history from './helpers';
 export const isAdmin = () => {
     var token=localStorage.getItem('token')
     var decoded = jwt_decode(token);
-    // console.log(decoded);
-
+    console.log(decoded)
     if(decoded.role == "admin"){
         return true;
     }else{
@@ -25,11 +24,25 @@ export const isUser = () => {
     }
 };
 
+const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (e) {
+      return null;
+    }
+  };
+
 // Access user info from localstorage
 export const isAuth = () => {
 
     var token=localStorage.getItem('token')
-    // console.log(token)
+    
+    const decodedJwt = parseJwt(token);
+
+      if (decodedJwt!=null && decodedJwt.exp * 1000 < Date.now()) {
+        signout();
+        
+      }
     if (token !== null ) {
         return true;
     }else{

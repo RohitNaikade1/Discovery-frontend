@@ -19,16 +19,20 @@ const Header = () => {
                         navbar
                     >
                         <NavItem>
-                            <NavLink  className="nav-link active" href="/admin">
+                            <NavLink className="nav-link active" href="/admin">
                                 Credentials
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink  className="nav-link active" href="">
+                            <NavLink className="nav-link active" href="">
                                 Registrations
                             </NavLink>
                         </NavItem>
-
+                        <NavItem>
+                            <NavLink className="nav-link active" href="/userprofile">
+                                Profile
+                            </NavLink>
+                        </NavItem>
                     </Nav>
                     <NavbarText>
                         <NavLink onClick={signout}>

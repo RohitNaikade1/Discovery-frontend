@@ -77,6 +77,11 @@ const Header = () => {
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+            <NavItem>
+              <NavLink className="nav-link active" href="/adminprofile">
+                Profile
+              </NavLink>
+            </NavItem>
           </Nav>
           <NavbarText>
             <NavLink onClick={signout}>

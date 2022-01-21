@@ -5,26 +5,23 @@ import { isAuth, isAdmin, isUser } from '../helpers/auth';
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { userFetch } from '../Redux/Actions/getUsers';
-import { editData } from '../Redux/Actions/editData'
+import { credentialsFetch } from '../Redux/Actions/getCredentials'
 import EditUser from "./EditUser";
 import History from "../helpers/helpers";
 import axiosInstance from "../helpers/axios";
 
-const UserList = () => {
-
-
+const CredentialsList = () =>{
     const [show, setShow] = useState(false);
-    const [id, setId] = useState("");
-    const [fname, setFname] = useState('')
-    const [sname, setSname] = useState('')
+    const [credsid, setCredsid] = useState("");
+    const [username, setUsername] = useState('')
     const dispatch = useDispatch()
+   
     useEffect(() => {
-        dispatch(userFetch());
+        dispatch(credentialsFetch());
     }, [])
     
     const edit = (name) => {
 
-        dispatch(editData(name))
         // History.push({
         //     pathname:"/edituser"
         // })
@@ -43,11 +40,12 @@ const UserList = () => {
 
             }
         };
-        axiosInstance.delete(`servicediscovery/users/${id}`, config
+
+        axiosInstance.delete(`servicediscovery/credentials/${credsid}`, config
         )
             .then(res => {
                 console.log(res)
-                History.push("/userlist")
+                History.push("/credentialslist")
                 window.location.reload()
 
             })
@@ -58,9 +56,9 @@ const UserList = () => {
     }
     const deleteRec = (name) => {
         setShow(true)
-        setFname(name.firstname)
-        setSname(name.lastname)
-        setId(name._id)
+        console.log(name._id)
+        setUsername(name.username)
+        setCredsid(name._id)
 
     }
 
@@ -70,28 +68,26 @@ const UserList = () => {
     const closeModal = () => {
         setShow(false)
     }
+    const Record = useSelector((state) => state.credentials);
     
-
-    
-    const Record = useSelector((state) => state.usersList);
-    console.log(Record)
-    let usersData = "";
-    if (Record.users.data) {
-        usersData = Record.users.data.map((name, key) => {
+    let credentials = "";
+    if (Record.credentials.data) {
+        console.log(Record.credentials.data)
+        credentials = Record.credentials.data.map((name, key) => {
 
             return (
                 <tr id={key}>
-                    <td>{name.firstname}</td>
-                    <td>{name.lastname}</td>
+                    <td>{name.credsid}</td>
+                    <td>{name.provider}</td>
                     <td>{name.username}</td>
-                    <td>{name.email}</td>
-                    <td>{name.role}</td>
+                    <td>{name.subscriptionid}</td>
+                    <td>{name.tenantid}</td>
+                    
                     <td><button type="button" onClick={e => { edit(name) }} className="btn btn-primary">Edit</button> <button type="button" onClick={e => { deleteRec(name) }} className="ml-3 btn btn-danger">Delete</button></td>
                 </tr>
             );
         });
     }
-
 
     if (isAuth() && isAdmin()) {
 
@@ -105,7 +101,7 @@ const UserList = () => {
                         Alert
                     </ModalHeader>
                     <ModalBody>
-                        Want to delete a record of {fname} {sname} ?
+                        Want to delete a record of {username} ?
                     </ModalBody>
                     <ModalFooter>
                         <Button
@@ -125,15 +121,15 @@ const UserList = () => {
                     <AdminHeader />
                     <Table className="mt-3 table-striped">
                         <thead>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Creds ID</th>
+                            <th>Provider</th>
                             <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th>Subscription ID</th>
+                            <th>Tenant ID</th>
                             <th>Actions</th>
                         </thead>
                         <tbody>
-                            {usersData}
+                            {credentials}
                         </tbody>
                     </Table>
                 </Container>
@@ -145,7 +141,6 @@ const UserList = () => {
     } else {
         return <Navigate to="/" />
     }
-
 }
 
-export default UserList;
+export default CredentialsList;
