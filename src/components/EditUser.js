@@ -1,11 +1,18 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Row, Col,Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
 import AdminHeader from './AdminHeader';
 import { isAuth,isAdmin,isUser } from '../helpers/auth';
 import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 
-const EditUser = (props) => {
-    console.log(props)
+const EditUser = () => {
+
+    const dispatch = useDispatch()
+    const Record = useSelector((state) => state);
+    if(Record){
+        console.log(Record)
+    }
+
     if(isAuth() && isAdmin()){
         return (
             <Container fluid>

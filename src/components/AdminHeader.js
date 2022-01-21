@@ -18,11 +18,32 @@ const Header = () => {
             className="me-auto"
             navbar
           >
-            <NavItem>
-              <NavLink className="nav-link active" href="/user">
+            <UncontrolledDropdown
+              inNavbar
+              nav
+            >
+              <DropdownToggle
+                caret
+                nav  className="nav-link active"
+              >
                 Credentials
-              </NavLink>
-            </NavItem>
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                    <NavLink className="text-dark" href="/addcredentials">
+                      Add
+                    </NavLink>
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                <NavLink className="text-dark" href="/credentialslist">
+                      List
+                    </NavLink>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+
+
 
             
             <NavItem>

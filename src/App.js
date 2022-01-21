@@ -9,6 +9,7 @@ import AddUser from './components/AddUser';
 import EditUser from './components/EditUser';
 import UserList from './components/UserList';
 import PrivateRouter from './components/PrivateRouter';
+import AddCredentials from './components/AddCredentials';
 function App() {
 
   const data={}
@@ -17,13 +18,13 @@ function App() {
       {/* <Header /> */}
       <Routes>
       
-        {/* <Route exact path="/" element={ <Header />} /> */}
         <Route path="/" element={<Login />} />
         <Route path="admin" element={ <Admin />} />
         <Route path="user" element={ <User />} />
         <Route path="adduser" element={ <AddUser />} />
-        <Route path="edituser" element={ <EditUser/>} />
+        <Route path="edituser" element={ <EditUser data={data}/>} />
         <Route path ="userlist" element={<UserList/>}/>
+        <Route path ="addcredentials" element={<AddCredentials/>}/>
 
         
       </Routes>

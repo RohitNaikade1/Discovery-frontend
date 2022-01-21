@@ -5,6 +5,7 @@ import { isAuth, isAdmin, isUser } from '../helpers/auth';
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { userFetch } from '../Redux/Actions/getUsers';
+import { editData } from '../Redux/Actions/editData'
 import EditUser from "./EditUser";
 import History from "../helpers/helpers";
 import axiosInstance from "../helpers/axios";
@@ -15,9 +16,21 @@ const UserList = () => {
     const [id, setId] = useState("");
     const [fname, setFname] = useState('')
     const [sname, setSname] = useState('')
-
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(userFetch());
+    }, [])
+    
     const edit = (name) => {
 
+        dispatch(editData(name))
+        // History.push({
+        //     pathname:"/edituser"
+        // })
+        // window.location.reload()
+        
+        
+        
     }
     const deleteRecord = () => {
 
@@ -56,13 +69,11 @@ const UserList = () => {
     const closeModal = () => {
         setShow(false)
     }
-    const dispatch = useDispatch()
+    
 
-    useEffect(() => {
-        dispatch(userFetch());
-    }, [])
+    
     const Record = useSelector((state) => state.usersList);
-
+    console.log(Record)
     let usersData = "";
     if (Record.users.data) {
         usersData = Record.users.data.map((name, key) => {
