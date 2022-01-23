@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Container, Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import AdminHeader from './AdminHeader';
 import { isAuth, isAdmin, isUser } from '../helpers/auth';
-import { Navigate } from "react-router-dom";
+import { Navigate,generatePath } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { userFetch } from '../Redux/Actions/getUsers';
 import { editData } from '../Redux/Actions/editData'
 import EditUser from "./EditUser";
 import History from "../helpers/helpers";
-import axiosInstance from "../helpers/axios";
+import axiosInstance from "../helpers/axios";;
 
 const UserList = () => {
-
 
     const [show, setShow] = useState(false);
     const [id, setId] = useState("");
@@ -24,13 +23,10 @@ const UserList = () => {
     
     const edit = (name) => {
 
-        dispatch(editData(name))
-        // History.push({
-        //     pathname:"/edituser"
-        // })
-        // window.location.reload()
-        
-        
+        console.log(name)
+
+        History.push(`/edituser/${name._id}`);
+        window.location.reload()
         
     }
     const deleteRecord = () => {

@@ -22,10 +22,10 @@ const CredentialsList = () =>{
     
     const edit = (name) => {
 
-        // History.push({
-        //     pathname:"/edituser"
-        // })
-        // window.location.reload()
+        console.log(name)
+
+        History.push(`/editcredentials/${name.credsid}`);
+        window.location.reload()
         
         
         

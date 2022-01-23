@@ -1,7 +1,8 @@
 import { constants } from "../Actions/constants"
 
 const initState={
-    credentials:{}
+    credentials:{},
+    cred:{}
 }
 
 export const credsReducer=(state=initState,action)=>{
@@ -13,6 +14,11 @@ export const credsReducer=(state=initState,action)=>{
             return state={
                 ...state,
                 credentials:action.payload.credentialsData
+            }
+        case constants.GET_CRED:
+            return state={
+                ...state,
+                cred:action.payload.cred
             }
         default:
             return state

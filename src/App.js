@@ -13,9 +13,12 @@ import AddCredentials from './components/AddCredentials';
 import CredentialsList from './components/CredentailsList';
 import  UserProfile  from './components/UserProfile';
 import AdminProfile from './components/AdminProfile'
+import EditCredentials from './components/EditCredentials';
 function App() {
 
-  const data={}
+  const data={
+
+  }
   return (
     <div className="App">
       {/* <Header /> */}
@@ -25,7 +28,8 @@ function App() {
         <Route path="admin" element={ <Admin />} />
         <Route path="user" element={ <User />} />
         <Route path="adduser" element={ <AddUser />} />
-        <Route path="edituser" element={ <EditUser data={data}/>} />
+        <Route path="edituser/:id" element={ <EditUser/>} />
+        <Route path="editcredentials/:id" element={ <EditCredentials/>} />
         <Route path ="userlist" element={<UserList/>}/>
         <Route path ="addcredentials" element={<AddCredentials/>}/>
         <Route path ="credentialslist" element={<CredentialsList/>}/>

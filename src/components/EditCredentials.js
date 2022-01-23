@@ -5,20 +5,19 @@ import { isAuth, isAdmin, isUser } from '../helpers/auth';
 import { Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../Redux/Actions/getUsers';
+import { getCred } from '../Redux/Actions/getCredentials';
 import axiosInstance from "../helpers/axios";
 
-const EditUser = () => {
+const EditCredentials = () => {
 
     const params = useParams();
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getUser(params.id))
+        dispatch(getCred(params.id))
     }, [params]);
 
-    const Record = useSelector((state) => state.usersList.editUser.data);
-
-    const [role, setRole] = useState("user");
+    const Record = useSelector((state) => state.usersList.credentials);
+    console.log(Record)
 
     const handle = () => {
         const data = {
@@ -26,7 +25,6 @@ const EditUser = () => {
             lastname: Record.lastname,
             username: Record.username,
             email: Record.email,
-            role: role
         }
 
         var token = localStorage.getItem("token")
@@ -53,9 +51,6 @@ const EditUser = () => {
 
     }
 
-    const tp = (tp) => {
-        setRole(tp)
-    }
     if (isAuth() && isAdmin()) {
         return (
             <Container fluid>
@@ -66,33 +61,19 @@ const EditUser = () => {
                 <Row className="align-items-center mt-4">
                     <Col className="col-md-4 col-sm-4"></Col>
                     <Col className="col-md-4 col-sm-4">
-                        <Form inline className="">
+                    <Form   inline className="">
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
                                 <Label
                                     className="ml-0"
-                                    for="firstname"
+                                    for="provider"
                                 >
-                                    First Name
+                                    Provider
                                 </Label>
                                 <Input
-                                    name="firstname"
-                                    value={Record?.firstname}
-                                    placeholder="First Name"
+                                    name="provider"
+                                    placeholder="provider"
                                     type="text"
-                                />
-                            </FormGroup>
-                            <FormGroup className="mb-2 me-sm-2 mb-sm-0">
-                                <Label
-                                    className="ml-0"
-                                    for="lastname"
-                                >
-                                    Last Name
-                                </Label>
-                                <Input
-                                    name="lastname"
-                                    value={Record?.lastname}
-                                    placeholder="Last Name"
-                                    type="text"
+                                    
                                 />
                             </FormGroup>
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
@@ -100,44 +81,45 @@ const EditUser = () => {
                                     className="ml-0"
                                     for="username"
                                 >
-                                    Username
+                                    Account Username
                                 </Label>
                                 <Input
                                     name="username"
-                                    value={Record?.username}
-                                    placeholder="Username"
+                                    placeholder="username"
                                     type="text"
+                                    
                                 />
                             </FormGroup>
-
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
                                 <Label
                                     className="ml-0"
-                                    for="email"
+                                    for="subscriptionid"
                                 >
-                                    Email
+                                    Subscription ID
                                 </Label>
                                 <Input
-                                    name="email"
-                                    value={Record?.email}
-                                    placeholder="Email"
+                                    name="subscriptionid"
+                                    placeholder="subscriptionid"
                                     type="text"
+                                    
                                 />
                             </FormGroup>
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
                                 <Label
                                     className="ml-0"
-                                    for="role"
+                                    for="tenantid"
                                 >
-                                    Role
+                                    Tenant ID
                                 </Label>
-                                <select name="role" onChange={e => tp(e.target.value)} className="form-control">
-                                    <option value="admin" selected>Admin</option>
-                                    <option value="user">User</option>
-                                </select>
+                                <Input
+                                    name="tenantid"
+                                    placeholder="tenantid"
+                                    type="text"
+                                    
+                                />
                             </FormGroup>
-                            <Button onClick={e => { handle() }} className="mt-3 btn-secondary btn-lg">
-                                Update
+                            <Button className="mt-3 btn-secondary btn-lg">
+                                Add
                             </Button>
                         </Form>
                     </Col>
@@ -153,4 +135,4 @@ const EditUser = () => {
 
 }
 
-export default EditUser;
+export default EditCredentials;

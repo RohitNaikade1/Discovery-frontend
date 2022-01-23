@@ -45,3 +45,25 @@ export const getProfile = () =>{
         }
     }
 }
+
+export const getUser = (id) =>{
+
+    var token = localStorage.getItem("token")
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+
+        }
+    };
+    return async (dispatch) => {
+        const editUser = await axiosInstance.get(`servicediscovery/users/${id}`,config);
+
+        if (editUser.status === 200) {
+            dispatch({
+                type: constants.GET_USER,
+                payload: { editUser }
+            })
+        }
+    }
+}

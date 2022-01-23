@@ -22,3 +22,25 @@ export const credentialsFetch = () => {
         }
     }
 }
+
+export const getCred = (id) =>{
+
+    var token = localStorage.getItem("token")
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+
+        }
+    };
+    return async (dispatch) => {
+        const cred = await axiosInstance.get(`servicediscovery/credentials/${id}`,config);
+        console.log(cred)
+        if (cred.status === 200) {
+            dispatch({
+                type: constants.GET_CRED,
+                payload: { cred }
+            })
+        }
+    }
+}
