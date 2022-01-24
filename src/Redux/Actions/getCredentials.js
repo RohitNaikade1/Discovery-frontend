@@ -25,6 +25,7 @@ export const credentialsFetch = () => {
 
 export const getCred = (id) =>{
 
+    console.log(id)
     var token = localStorage.getItem("token")
 
     const config = {

@@ -24,7 +24,7 @@ const CredentialsList = () =>{
 
         console.log(name)
 
-        History.push(`/editcredentials/${name.credsid}`);
+        History.push(`/editcredentials/${name._id}`);
         window.location.reload()
         
         

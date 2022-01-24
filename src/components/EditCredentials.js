@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getCred } from '../Redux/Actions/getCredentials';
 import axiosInstance from "../helpers/axios";
-
+import History from "../helpers/helpers";
 const EditCredentials = () => {
 
     const params = useParams();
@@ -16,16 +16,53 @@ const EditCredentials = () => {
         dispatch(getCred(params.id))
     }, [params]);
 
-    const Record = useSelector((state) => state.usersList.credentials);
-    console.log(Record)
+    const Record = useSelector((state) => state.credentials.cred.data);
 
+    const [provider,setProvider] = useState("");
+    const [application,setApplication] = useState("");
+    const [tenantId,setTenant] = useState("")
+    const [subscription,setSubscription] = useState("")
+
+    const changeProvider =(value)=>{
+        Record.provider=value
+        setProvider(value)
+    }
+    const changeApplication =(value)=>{
+        Record.username=value
+        setApplication(value)
+    }
+    const changeTenant =(value)=>{
+        Record.tenantid=value
+        setTenant(value)
+    }
+    const changeSubscription =(value)=>{
+        Record.subscriptionid=value
+        setSubscription(value)
+    }
     const handle = () => {
         const data = {
-            firstname: Record.firstname,
-            lastname: Record.lastname,
-            username: Record.username,
-            email: Record.email,
+            provider: provider,
+            username: application,
+            tenantid: tenantId,
+            subscriptionid: subscription
         }
+        if(provider===""){
+            data.provider=Record.provider
+        }
+        
+        if(application===""){
+            data.username=Record.username
+        }
+
+        if(tenantId===""){
+            data.tenantid=Record.tenantid
+        }
+
+        if(subscription===""){
+            data.subscriptionid=Record.subscriptionid
+        }
+
+
 
         var token = localStorage.getItem("token")
         console.log(data)
@@ -37,11 +74,11 @@ const EditCredentials = () => {
 
             }
         };
-        axiosInstance.put(`servicediscovery/users/${params.id}`, data, config
+        axiosInstance.put(`/servicediscovery/credentials/${params.id}`, data, config
         )
             .then(res => {
                 console.log(res)
-                History.push("/userlist")
+                History.push("/credentialslist")
                 window.location.reload()
 
             })
@@ -56,7 +93,7 @@ const EditCredentials = () => {
             <Container fluid>
                 <AdminHeader />
                 <Row>
-                    <h2 className="mt-2">Edit User Details</h2>
+                    <h2 className="mt-2">Edit Credentials</h2>
                 </Row>
                 <Row className="align-items-center mt-4">
                     <Col className="col-md-4 col-sm-4"></Col>
@@ -72,6 +109,8 @@ const EditCredentials = () => {
                                 <Input
                                     name="provider"
                                     placeholder="provider"
+                                    value={Record?.provider}
+                                    onChange={e=>{changeProvider(e.target.value)}}
                                     type="text"
                                     
                                 />
@@ -85,6 +124,8 @@ const EditCredentials = () => {
                                 </Label>
                                 <Input
                                     name="username"
+                                    value={Record?.username}
+                                    onChange={e=>{changeApplication(e.target.value)}}
                                     placeholder="username"
                                     type="text"
                                     
@@ -99,6 +140,8 @@ const EditCredentials = () => {
                                 </Label>
                                 <Input
                                     name="subscriptionid"
+                                    value={Record?.subscriptionid}
+                                    onChange={e=>{changeSubscription(e.target.value)}}
                                     placeholder="subscriptionid"
                                     type="text"
                                     
@@ -113,12 +156,14 @@ const EditCredentials = () => {
                                 </Label>
                                 <Input
                                     name="tenantid"
+                                    value={Record?.tenantid}
+                                    onChange={e=>{changeTenant(e.target.value)}}
                                     placeholder="tenantid"
                                     type="text"
                                     
                                 />
                             </FormGroup>
-                            <Button className="mt-3 btn-secondary btn-lg">
+                            <Button onClick={e=>handle()} className="mt-3 btn-secondary btn-lg">
                                 Add
                             </Button>
                         </Form>

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../Redux/Actions/getUsers';
 import axiosInstance from "../helpers/axios";
+import History from "../helpers/helpers";
 
 const EditUser = () => {
 
@@ -17,16 +18,58 @@ const EditUser = () => {
     }, [params]);
 
     const Record = useSelector((state) => state.usersList.editUser.data);
-
-    const [role, setRole] = useState("user");
+    const [firstname,setFirstName] = useState("")
+    const [lastname,setLastName] = useState("")
+    const [username,setUserName] = useState("")
+    const [email,setEmail] = useState("")
+    const [role, setRole] = useState("");
+    
+    const fname=(val)=>{
+        Record.firstname=val
+        setFirstName(val)
+    }
+    const lname=(val)=>{
+        Record.lastname=val
+        setLastName(val)
+    }
+    const uname=(val)=>{
+        Record.username=val
+        setUserName(val)
+    }
+    const emailUpdate=(val)=>{
+        Record.email=val
+        setEmail(val)
+    }
 
     const handle = () => {
+
+        
         const data = {
-            firstname: Record.firstname,
-            lastname: Record.lastname,
-            username: Record.username,
-            email: Record.email,
-            role: role
+            firstname: firstname,
+            lastname: lastname,
+            username: username,
+            email: email,
+            role: role,
+            password:Record.password
+        }
+        if(firstname===""){
+            data.firstname=Record.firstname
+        }
+        
+        if(lastname===""){
+            data.lastname=Record.lastname
+        }
+
+        if(username===""){
+            data.username=Record.username
+        }
+
+        if(email===""){
+            data.email=Record.email
+        }
+
+        if(role===""){
+            data.role=Record.role
         }
 
         var token = localStorage.getItem("token")
@@ -77,6 +120,7 @@ const EditUser = () => {
                                 <Input
                                     name="firstname"
                                     value={Record?.firstname}
+                                    onChange={e=>{fname(e.target.value)}}
                                     placeholder="First Name"
                                     type="text"
                                 />
@@ -91,6 +135,7 @@ const EditUser = () => {
                                 <Input
                                     name="lastname"
                                     value={Record?.lastname}
+                                    onChange={e=>{lname(e.target.value)}}
                                     placeholder="Last Name"
                                     type="text"
                                 />
@@ -105,6 +150,7 @@ const EditUser = () => {
                                 <Input
                                     name="username"
                                     value={Record?.username}
+                                    onChange={e=>{uname(e.target.value)}}
                                     placeholder="Username"
                                     type="text"
                                 />
@@ -120,6 +166,7 @@ const EditUser = () => {
                                 <Input
                                     name="email"
                                     value={Record?.email}
+                                    onChange={e=>{emailUpdate(e.target.value)}}
                                     placeholder="Email"
                                     type="text"
                                 />
