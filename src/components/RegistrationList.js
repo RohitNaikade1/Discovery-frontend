@@ -39,11 +39,11 @@ const UserList = () => {
 
             }
         };
-        axiosInstance.delete(`servicediscovery/users/${id}`, config
+        axiosInstance.delete(`servicediscovery/registration/${id}`, config
         )
             .then(res => {
                 console.log(res)
-                History.push("/userlist")
+                History.push("/registrationlist")
                 window.location.reload()
 
             })

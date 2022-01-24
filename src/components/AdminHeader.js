@@ -4,10 +4,11 @@ import { signout,isAdmin } from '../helpers/auth'
 const Header = () => {
   return (
     <div>
-      <Navbar
+      <Navbar 
         color="dark"
         expand="md"
         dark
+    
       >
         <NavbarBrand href="/">
           Custom-Discovery
@@ -109,6 +110,8 @@ const Header = () => {
 
           </NavbarText>
         </Collapse>
+        
+       
       </Navbar>
     </div>
   )

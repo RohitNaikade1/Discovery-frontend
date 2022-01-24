@@ -94,11 +94,11 @@ const AddUser = () => {
                 "resources":[]
             }
         }
-        if(networkinterfaces===true){
-            network.resource_info.resources.push("networkinterfaces")
-        }
         if(virtualnetworks===true){
             network.resource_info.resources.push("virtualnetworks")
+        }
+        if(networkinterfaces===true){
+            network.resource_info.resources.push("networkinterfaces")
         }
         if(publicipaddresses===true){
             network.resource_info.resources.push("publicipaddresses")
@@ -109,7 +109,9 @@ const AddUser = () => {
         if(loadbalancers===true){
             network.resource_info.resources.push("loadbalancers")
         }
-
+        if(subnets===true){
+            network.resource_info.resources.push("subnets")
+        }
         data.Categories.push(management)
         data.Categories.push(database)
         data.Categories.push(network)
@@ -131,8 +133,8 @@ const AddUser = () => {
         )
             .then(res => {
                 console.log(res)
-                // History.push("/adduser")
-                // window.location.reload()
+                History.push("/addregistration")
+                window.location.reload()
 
             })
             .catch(err => {
@@ -149,10 +151,8 @@ const AddUser = () => {
             setVirtualMachines(!virtualmachines)
         }else if(value==="virtualnetworks"){
             setVirtualNetworks(!virtualnetworks)
-        }else if(value==="virtualmachines"){
-            setNetworkInterfaces(!networkinterfaces)
         }else if(value==="networkinterfaces"){
-            setVirtualMachines(!networkinterfaces)
+            setNetworkInterfaces(!networkinterfaces)
         }else if(value==="networksecuritygroups"){
             setNSG(!networksecuritygroups)
         }else if(value==="disks"){
@@ -167,7 +167,7 @@ const AddUser = () => {
             setServers(!servers)
         }else if(value==="subnets"){
             setSubnets(!subnets)
-        }else{
+        }else if(value==="loadbalancers"){
             setLoadbalancers(!loadbalancers)
         }
     }
