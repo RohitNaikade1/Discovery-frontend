@@ -17,20 +17,55 @@ const Profile = () => {
 
     const Record = useSelector((state) => state.usersList.profile.data);
     console.log(Record)
+    const [username,setUsername]=useState("")
+    const [firstname,setFirstname]=useState("")
+    const [lastname,setLastname]=useState("")
+    const [email,setEmail]=useState("")
+
+    const fname = (value)=>{
+        Record.firstname=value
+        setFirstname(value)
+    }
+    const uname = (value)=>{
+        Record.username=value
+        setUsername(value)
+    }
+    const lname = (value)=>{
+        Record.lastname=value
+        setLastname(value)
+    }
+    const emailChange = (value)=>{
+        Record.email=value
+        setEmail(value)
+    }
 
     const handle = () => {
         const data = {
-            username: Record?.username,
-            firstname: Record?.firstname,
-            lastname: Record?.lastname,
-            email: Record?.email,
-            role:Record?.role,
-            password:Record?.password
+            username: username,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            role:Record.role,
+            password:Record.password
         }
+
+        if(username===""){
+            data.username=Record.username
+        }
+        if(firstname===""){
+            data.firstname=Record.firstname
+        }
+        if(lastname===""){
+            data.lastname=Record.lastname
+        }
+        if(email===""){
+            data.email=Record.email
+        }
+
 
         var token = localStorage.getItem("token")
         var decoded = jwt_decode(token);
-        console.log(data,decoded)
+        console.log(data)
        
 
         const config = {
@@ -39,17 +74,17 @@ const Profile = () => {
 
             }
         };
-        axiosInstance.put(`servicediscovery/users/${decoded._id}`, data, config
+        axiosInstance.put(`servicediscovery/users/${decoded.id}`, data, config
         )
             .then(res => {
                 console.log(res)
-                // if (decoded.role == "admin") {
-                //     History.push("/adminprofile")
-                //     window.location.reload()
-                // } else {
-                //     History.push("/userprofile")
-                //     window.location.reload()
-                // }
+                if (decoded.role == "admin") {
+                    History.push("/adminprofile")
+                    window.location.reload()
+                } else {
+                    History.push("/userprofile")
+                    window.location.reload()
+                }
 
 
             })
@@ -84,6 +119,7 @@ const Profile = () => {
                                         name="firstname"
                                         value={Record?.firstname}
                                         placeholder="First Name"
+                                        onChange={e=>{fname(e.target.value)}}
                                         type="text"
                                     />
                                 </FormGroup>
@@ -98,6 +134,7 @@ const Profile = () => {
                                         name="lastname"
                                         placeholder="Last Name"
                                         value={Record?.lastname}
+                                        onChange={e=>{lname(e.target.value)}}
                                         type="text"
                                     />
                                 </FormGroup>
@@ -111,6 +148,7 @@ const Profile = () => {
                                     <Input
                                         name="Username"
                                         value={Record?.username}
+                                        onChange={e=>{uname(e.target.value)}}
                                         placeholder="Username"
                                         type="text"
                                     />
@@ -127,6 +165,7 @@ const Profile = () => {
                                         name="email"
                                         placeholder="Email"
                                         value={Record?.email}
+                                        onChange={e=>{emailChange(e.target.value)}}
                                         type="text"
                                     />
                                 </FormGroup>
@@ -146,7 +185,7 @@ const Profile = () => {
                                     />
                                 </FormGroup>
                                 <Button onClick={handle} className="mt-3 btn-secondary btn-lg">
-                                    Update
+                                    Save
                                 </Button>
                             </Form>
                         </Col>

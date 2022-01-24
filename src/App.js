@@ -14,6 +14,8 @@ import CredentialsList from './components/CredentailsList';
 import  UserProfile  from './components/UserProfile';
 import AdminProfile from './components/AdminProfile'
 import EditCredentials from './components/EditCredentials';
+import RegistrationList from './components/RegistrationList'
+import AddRegistration from './components/AddRegistration'
 function App() {
 
   const data={
@@ -28,6 +30,7 @@ function App() {
         <Route path="admin" element={ <Admin />} />
         <Route path="user" element={ <User />} />
         <Route path="adduser" element={ <AddUser />} />
+        <Route path="addregistration" element={ <AddRegistration />} />
         <Route path="edituser/:id" element={ <EditUser/>} />
         <Route path="editcredentials/:id" element={ <EditCredentials/>} />
         <Route path ="userlist" element={<UserList/>}/>
@@ -35,6 +38,7 @@ function App() {
         <Route path ="credentialslist" element={<CredentialsList/>}/>
         <Route path ="userprofile" element={<UserProfile />}/>
         <Route path ="adminprofile" element={<AdminProfile />}/>
+        <Route path ="registrationlist" element={<RegistrationList />}/>
       </Routes>
       
     </div>

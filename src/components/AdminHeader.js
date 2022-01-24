@@ -46,11 +46,30 @@ const Header = () => {
 
 
             
-            <NavItem>
-              <NavLink className="nav-link active" href="">
-                Registrations
-              </NavLink>
-            </NavItem>
+            <UncontrolledDropdown
+              inNavbar
+              nav
+            >
+              <DropdownToggle
+                caret
+                nav  className="nav-link active"
+              >
+                Registration
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                    <NavLink className="text-dark" href="/addregistration">
+                      Add
+                    </NavLink>
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                <NavLink className="text-dark" href="/registrationlist">
+                      List
+                    </NavLink>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
             
             
             <UncontrolledDropdown
