@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Container, Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import AdminHeader from './AdminHeader';
-import { isAuth, isAdmin, isUser } from '../helpers/auth';
+import AdminHeader from '../headers/AdminHeader';
+import { isAuth, isAdmin, isUser } from '../../helpers/auth';
 import { Navigate,generatePath } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { userFetch } from '../Redux/Actions/getUsers';
-import { editData } from '../Redux/Actions/editData'
-import EditUser from "./EditUser";
-import History from "../helpers/helpers";
-import axiosInstance from "../helpers/axios";;
+import { getRegistration } from '../../Redux/Actions/registrations';
+import { editData } from '../../Redux/Actions/editData'
+import EditUser from "../users/EditUser";
+import History from "../../helpers/helpers";
+import axiosInstance from "../../helpers/axios";;
 
 const UserList = () => {
 
@@ -18,7 +18,7 @@ const UserList = () => {
     const [sname, setSname] = useState('')
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(userFetch());
+        dispatch(getRegistration());
     }, [])
     
     const edit = (name) => {
@@ -39,11 +39,11 @@ const UserList = () => {
 
             }
         };
-        axiosInstance.delete(`servicediscovery/users/${id}`, config
+        axiosInstance.delete(`servicediscovery/registration/${id}`, config
         )
             .then(res => {
                 console.log(res)
-                History.push("/userlist")
+                History.push("/registrationlist")
                 window.location.reload()
 
             })
@@ -69,19 +69,29 @@ const UserList = () => {
     
 
     
-    const Record = useSelector((state) => state.usersList);
+    const Record = useSelector((state) => state.registrations.registrations);
     console.log(Record)
-    let usersData = "";
-    if (Record.users.data) {
-        usersData = Record.users.data.map((name, key) => {
+    let registrations = "";
+    if (Record?.data) {
+
+
+        registrations = Record.data.map((name, key) => {
 
             return (
                 <tr id={key}>
-                    <td>{name.firstname}</td>
-                    <td>{name.lastname}</td>
-                    <td>{name.username}</td>
-                    <td>{name.email}</td>
-                    <td>{name.role}</td>
+                    <td>{key+1}</td>
+                    <td>{name.name}</td>
+                    <td>{name.accounts.credsid}</td>
+                    <td>{
+                         name.categories.map((f1,key)=>{
+                            return <td>{
+                                  f1.resource_info.resources.map((f2,key)=>{
+                                      return <td> {f2}</td>
+                                  })
+                                }</td>
+                            
+                         })
+                        }</td>
                     <td><button type="button" onClick={e => { edit(name) }} className="btn btn-primary">Edit</button> <button type="button" onClick={e => { deleteRec(name) }} className="ml-3 btn btn-danger">Delete</button></td>
                 </tr>
             );
@@ -121,15 +131,14 @@ const UserList = () => {
                     <AdminHeader />
                     <Table className="mt-3 table-striped">
                         <thead>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th>Sr.No</th>
+                            <th>Registration Name</th>
+                            <th>Credential ID</th>
+                            <th>Resources</th>
                             <th>Actions</th>
                         </thead>
                         <tbody>
-                            {usersData}
+                            {registrations}
                         </tbody>
                     </Table>
                 </Container>

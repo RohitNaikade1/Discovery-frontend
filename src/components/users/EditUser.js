@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form, FormGroup, Label, Input, Button, Container, TabPane } from 'reactstrap';
-import AdminHeader from './AdminHeader';
-import { isAuth, isAdmin, isUser } from '../helpers/auth';
+import AdminHeader from '../headers/AdminHeader';
+import { isAuth, isAdmin, isUser } from '../../helpers/auth';
 import { Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../Redux/Actions/getUsers';
-import axiosInstance from "../helpers/axios";
-import History from "../helpers/helpers";
+import { getUser } from '../../Redux/Actions/getUsers';
+import axiosInstance from "../../helpers/axios";
+import History from "../../helpers/helpers";
 
 const EditUser = () => {
 

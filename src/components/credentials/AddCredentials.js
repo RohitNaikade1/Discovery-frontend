@@ -1,72 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Row, Col, Form, FormGroup, Label, Input, Button, Container, TabPane } from 'reactstrap';
-import AdminHeader from './AdminHeader';
-import { isAuth, isAdmin, isUser } from '../helpers/auth';
+import React, { useState } from "react";
+import { Row, Col, Form, FormGroup, Label, Input, Button, Container, Navbar, NavbarBrand } from 'reactstrap';
+import axiosInstance from "../../helpers/axios";
+import AdminHeader from '../headers/AdminHeader';
 import { Navigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { getCred } from '../Redux/Actions/getCredentials';
-import axiosInstance from "../helpers/axios";
-import History from "../helpers/helpers";
-const EditCredentials = () => {
+import History from "../../helpers/helpers";
 
-    const params = useParams();
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getCred(params.id))
-    }, [params]);
+const AddCredentials = ()=>{
 
-    const Record = useSelector((state) => state.credentials.cred.data);
+    const [provider, setProvider] = useState("");
+    const [username, setUserName] = useState("");
+    const [subscriptionid, setSubscriptionID] = useState("");
+    const [tenantid, setTenantID] = useState("");
 
-    const [provider,setProvider] = useState("");
-    const [application,setApplication] = useState("");
-    const [tenantId,setTenant] = useState("")
-    const [subscription,setSubscription] = useState("")
-
-    const changeProvider =(value)=>{
-        Record.provider=value
-        setProvider(value)
-    }
-    const changeApplication =(value)=>{
-        Record.username=value
-        setApplication(value)
-    }
-    const changeTenant =(value)=>{
-        Record.tenantid=value
-        setTenant(value)
-    }
-    const changeSubscription =(value)=>{
-        Record.subscriptionid=value
-        setSubscription(value)
-    }
-    const handle = () => {
+    const handle = ()=>{
         const data = {
-            provider: provider,
-            username: application,
-            tenantid: tenantId,
-            subscriptionid: subscription
+            provider:provider,
+            username: username,
+            subscriptionid:subscriptionid,
+            tenantid:tenantid
         }
-        if(provider===""){
-            data.provider=Record.provider
-        }
-        
-        if(application===""){
-            data.username=Record.username
-        }
-
-        if(tenantId===""){
-            data.tenantid=Record.tenantid
-        }
-
-        if(subscription===""){
-            data.subscriptionid=Record.subscriptionid
-        }
-
-
 
         var token = localStorage.getItem("token")
+        console.log(token)
         console.log(data)
-
 
         const config = {
             headers: {
@@ -74,11 +30,11 @@ const EditCredentials = () => {
 
             }
         };
-        axiosInstance.put(`/servicediscovery/credentials/${params.id}`, data, config
+        axiosInstance.post('servicediscovery/credentials', data, config
         )
             .then(res => {
                 console.log(res)
-                History.push("/credentialslist")
+                History.push("/addcredentials")
                 window.location.reload()
 
             })
@@ -87,18 +43,17 @@ const EditCredentials = () => {
             })
 
     }
-
-    if (isAuth() && isAdmin()) {
-        return (
+    return(
+        <div>
             <Container fluid>
-                <AdminHeader />
+            <AdminHeader />
                 <Row>
-                    <h2 className="mt-2">Edit Credentials</h2>
+                    <h2 className="mt-2">Add New Credentials</h2>
                 </Row>
                 <Row className="align-items-center mt-4">
                     <Col className="col-md-4 col-sm-4"></Col>
                     <Col className="col-md-4 col-sm-4">
-                    <Form   inline className="">
+                        <Form   inline className="">
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
                                 <Label
                                     className="ml-0"
@@ -109,10 +64,8 @@ const EditCredentials = () => {
                                 <Input
                                     name="provider"
                                     placeholder="provider"
-                                    value={Record?.provider}
-                                    onChange={e=>{changeProvider(e.target.value)}}
                                     type="text"
-                                    
+                                    onChange={(e) => { setProvider(e.target.value) }}
                                 />
                             </FormGroup>
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
@@ -124,11 +77,9 @@ const EditCredentials = () => {
                                 </Label>
                                 <Input
                                     name="username"
-                                    value={Record?.username}
-                                    onChange={e=>{changeApplication(e.target.value)}}
                                     placeholder="username"
                                     type="text"
-                                    
+                                    onChange={(e) => { setUserName(e.target.value) }}
                                 />
                             </FormGroup>
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
@@ -140,11 +91,9 @@ const EditCredentials = () => {
                                 </Label>
                                 <Input
                                     name="subscriptionid"
-                                    value={Record?.subscriptionid}
-                                    onChange={e=>{changeSubscription(e.target.value)}}
                                     placeholder="subscriptionid"
                                     type="text"
-                                    
+                                    onChange={(e) => { setSubscriptionID(e.target.value) }}
                                 />
                             </FormGroup>
                             <FormGroup className="mb-2 me-sm-2 mb-sm-0">
@@ -156,28 +105,23 @@ const EditCredentials = () => {
                                 </Label>
                                 <Input
                                     name="tenantid"
-                                    value={Record?.tenantid}
-                                    onChange={e=>{changeTenant(e.target.value)}}
                                     placeholder="tenantid"
                                     type="text"
-                                    
+                                    onChange={(e) => { setTenantID(e.target.value) }}
                                 />
                             </FormGroup>
-                            <Button onClick={e=>handle()} className="mt-3 btn-secondary btn-lg">
+                            <Button className="mt-3 btn-secondary btn-lg" onClick={handle}>
                                 Add
                             </Button>
                         </Form>
                     </Col>
 
                 </Row>
-            </Container >
-        )
-    } else if (isAuth() && isUser()) {
-        return <Navigate to="/user" />
-    } else {
-        return <Navigate to="/" />
-    }
+            </Container>
 
+        </div>
+    )
+    
 }
 
-export default EditCredentials;
+export default AddCredentials;

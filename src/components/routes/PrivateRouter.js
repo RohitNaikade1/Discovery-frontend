@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { isAuth,isAdmin,isUser } from '../helpers/auth';
-import History from "../helpers/helpers";
+import { isAuth,isAdmin,isUser } from '../../helpers/auth';
+import History from "../../helpers/helpers";
 import { Navigate } from "react-router-dom";
 
 

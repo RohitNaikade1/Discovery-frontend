@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Container, Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import AdminHeader from './AdminHeader';
-import { isAuth, isAdmin, isUser } from '../helpers/auth';
-import { Navigate } from "react-router-dom";
+import AdminHeader from '../headers/AdminHeader';
+import { isAuth, isAdmin, isUser } from '../../helpers/auth';
+import { Navigate,generatePath } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { userFetch } from '../Redux/Actions/getUsers';
-import { credentialsFetch } from '../Redux/Actions/getCredentials'
+import { userFetch } from '../../Redux/Actions/getUsers';
+import { editData } from '../../Redux/Actions/editData'
 import EditUser from "./EditUser";
-import History from "../helpers/helpers";
-import axiosInstance from "../helpers/axios";
+import History from "../../helpers/helpers";
+import axiosInstance from "../../helpers/axios";;
 
-const CredentialsList = () =>{
+const UserList = () => {
+
     const [show, setShow] = useState(false);
-    const [credsid, setCredsid] = useState("");
-    const [username, setUsername] = useState('')
+    const [id, setId] = useState("");
+    const [fname, setFname] = useState('')
+    const [sname, setSname] = useState('')
     const dispatch = useDispatch()
-   
     useEffect(() => {
-        dispatch(credentialsFetch());
+        dispatch(userFetch());
     }, [])
     
     const edit = (name) => {
 
         console.log(name)
 
-        History.push(`/editcredentials/${name._id}`);
+        History.push(`/edituser/${name._id}`);
         window.location.reload()
-        
-        
         
     }
     const deleteRecord = () => {
@@ -40,12 +39,11 @@ const CredentialsList = () =>{
 
             }
         };
-
-        axiosInstance.delete(`servicediscovery/credentials/${credsid}`, config
+        axiosInstance.delete(`servicediscovery/users/${id}`, config
         )
             .then(res => {
                 console.log(res)
-                History.push("/credentialslist")
+                History.push("/userlist")
                 window.location.reload()
 
             })
@@ -56,9 +54,9 @@ const CredentialsList = () =>{
     }
     const deleteRec = (name) => {
         setShow(true)
-        console.log(name._id)
-        setUsername(name.username)
-        setCredsid(name._id)
+        setFname(name.firstname)
+        setSname(name.lastname)
+        setId(name._id)
 
     }
 
@@ -68,26 +66,28 @@ const CredentialsList = () =>{
     const closeModal = () => {
         setShow(false)
     }
-    const Record = useSelector((state) => state.credentials);
     
-    let credentials = "";
-    if (Record.credentials.data) {
-        console.log(Record.credentials.data)
-        credentials = Record.credentials.data.map((name, key) => {
+
+    
+    const Record = useSelector((state) => state.usersList);
+    console.log(Record)
+    let usersData = "";
+    if (Record.users.data) {
+        usersData = Record.users.data.map((name, key) => {
 
             return (
                 <tr id={key}>
-                    <td>{name.credsid}</td>
-                    <td>{name.provider}</td>
+                    <td>{name.firstname}</td>
+                    <td>{name.lastname}</td>
                     <td>{name.username}</td>
-                    <td>{name.subscriptionid}</td>
-                    <td>{name.tenantid}</td>
-                    
+                    <td>{name.email}</td>
+                    <td>{name.role}</td>
                     <td><button type="button" onClick={e => { edit(name) }} className="btn btn-primary">Edit</button> <button type="button" onClick={e => { deleteRec(name) }} className="ml-3 btn btn-danger">Delete</button></td>
                 </tr>
             );
         });
     }
+
 
     if (isAuth() && isAdmin()) {
 
@@ -101,7 +101,7 @@ const CredentialsList = () =>{
                         Alert
                     </ModalHeader>
                     <ModalBody>
-                        Want to delete a record of {username} ?
+                        Want to delete a record of {fname} {sname} ?
                     </ModalBody>
                     <ModalFooter>
                         <Button
@@ -121,15 +121,15 @@ const CredentialsList = () =>{
                     <AdminHeader />
                     <Table className="mt-3 table-striped">
                         <thead>
-                            <th>Creds ID</th>
-                            <th>Provider</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Username</th>
-                            <th>Subscription ID</th>
-                            <th>Tenant ID</th>
+                            <th>Email</th>
+                            <th>Role</th>
                             <th>Actions</th>
                         </thead>
                         <tbody>
-                            {credentials}
+                            {usersData}
                         </tbody>
                     </Table>
                 </Container>
@@ -141,6 +141,7 @@ const CredentialsList = () =>{
     } else {
         return <Navigate to="/" />
     }
+
 }
 
-export default CredentialsList;
+export default UserList;

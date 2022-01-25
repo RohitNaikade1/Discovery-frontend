@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Row, Col, Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
-import AdminHeader from './AdminHeader';
-import axiosInstance from "../helpers/axios";
-import { isAuth, isAdmin, isUser } from '../helpers/auth';
+import AdminHeader from '../headers/AdminHeader';
+import axiosInstance from "../../helpers/axios";
+import { isAuth, isAdmin, isUser } from '../../helpers/auth';
 import { Navigate } from "react-router-dom";
-import History from "../helpers/helpers";
+import History from "../../helpers/helpers";
 const AddUser = () => {
 
     const [name, setName] = useState("");

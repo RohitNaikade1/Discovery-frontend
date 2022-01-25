@@ -1,21 +1,21 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route,Switch } from "react-router-dom";
-import Login from './components/Login';
-import Header from './components/Header';
-import Admin from './components/Admin';
-import User from './components/User';
-import AddUser from './components/AddUser';
-import EditUser from './components/EditUser';
-import UserList from './components/UserList';
-import PrivateRouter from './components/PrivateRouter';
-import AddCredentials from './components/AddCredentials';
-import CredentialsList from './components/CredentailsList';
-import  UserProfile  from './components/UserProfile';
-import AdminProfile from './components/AdminProfile'
-import EditCredentials from './components/EditCredentials';
-import RegistrationList from './components/RegistrationList'
-import AddRegistration from './components/AddRegistration'
+import Login from './components/login/Login';
+//import Header from './components/Header';
+import Admin from './components/dashboard/Admin';
+import User from './components/dashboard/User';
+import AddUser from './components/users/AddUser';
+import EditUser from './components/users/EditUser';
+import UserList from './components/users/UserList';
+import PrivateRouter from './components/routes/PrivateRouter';
+import AddCredentials from './components/credentials/AddCredentials';
+import CredentialsList from './components/credentials/CredentailsList';
+import  UserProfile  from './components/profile/UserProfile';
+import AdminProfile from './components/profile/AdminProfile'
+import EditCredentials from './components/credentials/EditCredentials';
+import RegistrationList from './components/registration/RegistrationList'
+import AddRegistration from './components/registration/AddRegistration'
 function App() {
 
   const data={

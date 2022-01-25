@@ -1,6 +1,6 @@
 import React from "react";
 import { NavbarText, UncontrolledDropdown, DropdownToggle, Navbar, DropdownItem, DropdownMenu, Collapse, Nav, NavbarBrand, NavbarToggler, NavItem, NavLink, Container } from 'reactstrap';
-import { signout,isAuth, isAdmin, isUser } from '../helpers/auth'
+import { signout,isAuth, isAdmin, isUser } from '../../helpers/auth'
 import { Navigate } from "react-router-dom";
 const Header = () => {
 

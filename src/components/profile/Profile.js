@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Navbar, NavbarBrand, Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
 //import {LocalForm,Control,Errors} from "react-redux-form";
-import axiosInstance from "../helpers/axios";
+import axiosInstance from "../../helpers/axios";
 import { Navigate, useLinkClickHandler } from 'react-router-dom';
-import { getProfile } from '../Redux/Actions/getUsers';
-import History from "../helpers/helpers";
-import { isAuth, isAdmin, isUser } from '../helpers/auth';
+import { getProfile } from '../../Redux/Actions/getUsers';
+import History from "../../helpers/helpers";
+import { isAuth, isAdmin, isUser } from '../../helpers/auth';
 import jwt_decode from "jwt-decode";
 
 const Profile = () => {
