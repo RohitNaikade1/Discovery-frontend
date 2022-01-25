@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
 import AdminHeader from '../headers/AdminHeader';
 import axiosInstance from "../../helpers/axios";
 import { isAuth, isAdmin, isUser } from '../../helpers/auth';
 import { Navigate } from "react-router-dom";
 import History from "../../helpers/helpers";
-const AddUser = () => {
+import { credentialsFetch } from '../../Redux/Actions/getCredentials'
+import { useDispatch, useSelector } from 'react-redux';
+const AddRegistration = () => {
 
     const [name, setName] = useState("");
     const [credentialid, setId] = useState("");
@@ -22,6 +24,19 @@ const AddUser = () => {
     const [subnets,setSubnets] = useState(false)
     const [loadbalancers,setLoadbalancers] = useState(false)
 
+    const dispatch = useDispatch()
+   
+    useEffect(() => {
+        dispatch(credentialsFetch());
+    }, [])
+    const Record = useSelector((state) => state.credentials.credentials);
+    // console.log(Record)
+    let credsId=""
+    if(Record?.data){
+        credsId=Record.data.map((data,key)=>{
+            return <option value={data.credsid} selected>{data.credsid}</option>
+        })
+    }
 
 
     const handle = () => {
@@ -112,11 +127,22 @@ const AddUser = () => {
         if(subnets===true){
             network.resource_info.resources.push("subnets")
         }
-        data.Categories.push(management)
-        data.Categories.push(database)
-        data.Categories.push(network)
-        data.Categories.push(storage)
-        data.Categories.push(compute)
+
+        if(management.resource_info.resources.length>=1){
+            data.Categories.push(management)
+        }
+        if(database.resource_info.resources.length>=1){
+            data.Categories.push(database)
+        }
+        if(network.resource_info.resources.length>=1){
+            data.Categories.push(network)
+        }
+        if(storage.resource_info.resources.length>=1){
+            data.Categories.push(storage)
+        }
+        if(compute.resource_info.resources.length>=1){
+            data.Categories.push(compute)
+        }        
 
         console.log(data)
         var token = localStorage.getItem("token")
@@ -171,6 +197,11 @@ const AddUser = () => {
             setLoadbalancers(!loadbalancers)
         }
     }
+
+    const tp=(value)=>{
+        setId(value)
+        console.log(credentialid)
+    }
     if (isAuth() && isAdmin()) {
         return (
             <Container fluid>
@@ -203,12 +234,10 @@ const AddUser = () => {
                                 >
                                     Credential ID
                                 </Label>
-                                <Input
-                                    name="credid"
-                                    placeholder="Credential Id"
-                                    onChange={(e) => { setId(e.target.value) }}
-                                    type="text"
-                                />
+
+                                <select name="role" onChange={e => tp(e.target.value)} className="form-control">
+                                    {credsId}
+                                </select>
                             </FormGroup>
                             <FormGroup className="mb-2 mt-3 me-sm-2 mb-sm-0">
                                 <Label
@@ -318,4 +347,4 @@ const AddUser = () => {
 
 }
 
-export default AddUser;
+export default AddRegistration;

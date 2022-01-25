@@ -25,7 +25,7 @@ const UserList = () => {
 
         console.log(name)
 
-        History.push(`/edituser/${name._id}`);
+        History.push(`/editregistration/${name._id}`);
         window.location.reload()
         
     }

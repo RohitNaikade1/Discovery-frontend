@@ -39,6 +39,7 @@ const UserList = () => {
 
             }
         };
+        console.log("Reached")
         axiosInstance.delete(`servicediscovery/users/${id}`, config
         )
             .then(res => {

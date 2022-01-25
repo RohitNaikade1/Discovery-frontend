@@ -12,10 +12,11 @@ import PrivateRouter from './components/routes/PrivateRouter';
 import AddCredentials from './components/credentials/AddCredentials';
 import CredentialsList from './components/credentials/CredentailsList';
 import  UserProfile  from './components/profile/UserProfile';
-import AdminProfile from './components/profile/AdminProfile'
+import AdminProfile from './components/profile/AdminProfile';
 import EditCredentials from './components/credentials/EditCredentials';
 import RegistrationList from './components/registration/RegistrationList'
-import AddRegistration from './components/registration/AddRegistration'
+import AddRegistration from './components/registration/AddRegistration';
+import EditRegistration from './components/registration/EditRegistration';
 function App() {
 
   const data={
@@ -39,6 +40,7 @@ function App() {
         <Route path ="userprofile" element={<UserProfile />}/>
         <Route path ="adminprofile" element={<AdminProfile />}/>
         <Route path ="registrationlist" element={<RegistrationList />}/>
+        <Route path ="editregistration/:id" element={<EditRegistration />}/>
       </Routes>
       
     </div>
