@@ -202,7 +202,7 @@ const AddRegistration = () => {
         setId(value)
         console.log(credentialid)
     }
-    if (isAuth() && isAdmin()) {
+    if (isAuth()) {
         return (
             <Container fluid>
                 <AdminHeader />
@@ -339,9 +339,7 @@ const AddRegistration = () => {
                 </Row>
             </Container >
         )
-    } else if (isAuth() && isUser()) {
-        return <Navigate to="/user" />
-    } else {
+    }  else {
         return <Navigate to="/" />
     }
 
