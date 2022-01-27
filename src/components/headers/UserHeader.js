@@ -34,8 +34,14 @@ const Header = () => {
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  <NavLink className="text-dark" href="">
+                  <NavLink className="text-dark" href="/credslist">
                     List
+                  </NavLink>
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                  <NavLink className="text-dark" href="/usercreds">
+                    Your Credentials
                   </NavLink>
                 </DropdownItem>
               </DropdownMenu>

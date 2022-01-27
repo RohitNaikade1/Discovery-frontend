@@ -47,3 +47,27 @@ export const getCred = (id) => {
     }
   };
 };
+
+
+export const userCredentialsFetch = () => {
+  var token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return async (dispatch) => {
+    const userCredentials = await axiosInstance.get(
+      "servicediscovery/credentials/data",
+      config
+    );
+    console.log(userCredentials);
+    if (userCredentials.status === 200) {
+      dispatch({
+        type: constants.USER_CREDS,
+        payload: { userCredentials },
+      });
+    }
+  };
+};

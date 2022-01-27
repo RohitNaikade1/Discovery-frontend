@@ -17,6 +17,8 @@ import EditCredentials from "./components/credentials/EditCredentials";
 import RegistrationList from "./components/registration/RegistrationList";
 import AddRegistration from "./components/registration/AddRegistration";
 import EditRegistration from "./components/registration/EditRegistration";
+import UserCredentialsList from "./components/credentials/UserCredentialsList";
+import UserCredentials from "./components/credentials/UserCredentials";
 function App() {
   return (
     <div className="App">
@@ -35,6 +37,8 @@ function App() {
         <Route path="adminprofile" element={<AdminProfile />} />
         <Route path="registrationlist" element={<RegistrationList />} />
         <Route path="editregistration/:id" element={<EditRegistration />} />
+        <Route path="credslist" element={<UserCredentialsList/>}/>
+        <Route path="usercreds" element={<UserCredentials/>}/>
       </Routes>
     </div>
   );

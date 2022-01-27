@@ -7,4 +7,5 @@ export const constants = {
   GET_CRED: "GET_CRED",
   GET_REGISTRATIONS: "GET_REGISTRATIONS",
   GET_REG: "GET_REG",
+  USER_CREDS: "USER_CREDS"
 };
