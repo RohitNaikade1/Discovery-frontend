@@ -38,12 +38,13 @@ const AddRegistration = () => {
     dispatch(credentialsFetch());
   }, []);
   const Record = useSelector((state) => state.credentials.credentials);
-  // console.log(Record)
+
   let credsId = "";
   if (Record?.data) {
+
     credsId = Record.data.map((data, key) => {
       return (
-        <option value={data.credsid} selected>
+        <option value={data.credsid} defaultValue>
           {data.credsid}
         </option>
       );
@@ -59,7 +60,10 @@ const AddRegistration = () => {
       },
       Categories: [],
     };
-
+    console.log()
+    if(data.Accounts.credsid===""){
+      data.Accounts.credsid=Record.data[0].credsid
+    }
     const management = {
       category: "management",
       resource_info: {
@@ -152,7 +156,6 @@ const AddRegistration = () => {
       data.Categories.push(compute);
     }
 
-    console.log(data);
     var token = localStorage.getItem("token");
     console.log(data);
 
@@ -165,8 +168,8 @@ const AddRegistration = () => {
       .post("servicediscovery/registration", data, config)
       .then((res) => {
         console.log(res);
-        History.push("/addregistration");
-        window.location.reload();
+        // History.push("/addregistration");
+        // window.location.reload();
       })
       .catch((err) => {
         console.log(err);

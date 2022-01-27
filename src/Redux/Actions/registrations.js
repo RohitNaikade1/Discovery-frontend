@@ -35,7 +35,7 @@ export const getReg = (id) => {
   };
 
   return async (dispatch) => {
-    console.log(id);
+
     const registration = await axiosInstance.get(
       `servicediscovery/registration/${id}`,
       config

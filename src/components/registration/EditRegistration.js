@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component,useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -15,8 +15,10 @@ import { isAuth, isAdmin, isUser } from "../../helpers/auth";
 import { Navigate } from "react-router-dom";
 import History from "../../helpers/helpers";
 import { getReg } from "../../Redux/Actions/registrations";
+import { credentialsFetch } from "../../Redux/Actions/getCredentials";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+
 const EditRegistration = () => {
   const params = useParams();
   const [name, setName] = useState("");
@@ -33,28 +35,45 @@ const EditRegistration = () => {
   const [servers, setServers] = useState(false);
   const [subnets, setSubnets] = useState(false);
   const [loadbalancers, setLoadbalancers] = useState(false);
-  const [prevChecked, setPrevChecked] = useState([]);
+  var prevChecked=[]
+  const [check,setCheck] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getReg(params.id));
+    dispatch(credentialsFetch());
   }, []);
-  const Record = useSelector((state) => state.registrations.editReg);
-  console.log(Record);
+  const Record = useSelector((state) => state.registrations.editReg.data);
+  const creds = useSelector((state) => state.credentials.credentials);
 
   let credsId = "";
-  if (Record?.data) {
-    Record.data.Categories.map((f1, key) => {
-      console.log(f1);
-      f1.Resource_info.resources.map((f2, key) => {
-        prevChecked.push(f2);
-      });
+  if (creds?.data) {
+    
+    credsId = creds.data.map((data, key) => {
+      return (
+        <option value={data.credsid} defaultValue>
+          {data.credsid}
+        </option>
+      );
     });
 
-    console.log(prevChecked);
+  }
+
+  if (Record ) {
+
+    Record.Categories.map((f1, key) => {
+
+      f1.Resource_info.resources.map((f2, key) => {
+        console.log(f2)
+        prevChecked.push(f2);
+
+      });
+    });
+    
   }
 
   const handle = () => {
+
     const data = {
       name: name,
       url: "/servicediscovery/cloudresources/azure/service/",
@@ -63,6 +82,14 @@ const EditRegistration = () => {
       },
       Categories: [],
     };
+
+    if(data.name===""){
+      data.name=Record.name
+    }
+    console.log(Record)
+    if(data.Accounts.credsid===""){
+      data.Accounts.credsid=Record.Accounts.credsid
+    }
 
     const management = {
       category: "management",
@@ -156,7 +183,7 @@ const EditRegistration = () => {
       data.Categories.push(compute);
     }
 
-    console.log(data);
+
     var token = localStorage.getItem("token");
     console.log(data);
 
@@ -166,11 +193,11 @@ const EditRegistration = () => {
       },
     };
     axiosInstance
-      .post("servicediscovery/registration", data, config)
+      .put(`servicediscovery/registration/${Record._id}`, data, config)
       .then((res) => {
         console.log(res);
-        History.push("/addregistration");
-        window.location.reload();
+        // History.push("/registrationlist");
+        // window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -178,31 +205,56 @@ const EditRegistration = () => {
   };
 
   const set = (value) => {
-    if (value === "resourcegroups") {
-      setResourceGroups(!resourcegroups);
-    } else if (value === "virtualmachines") {
-      setVirtualMachines(!virtualmachines);
-    } else if (value === "virtualnetworks") {
-      setVirtualNetworks(!virtualnetworks);
-    } else if (value === "networkinterfaces") {
-      setNetworkInterfaces(!networkinterfaces);
-    } else if (value === "networksecuritygroups") {
-      setNSG(!networksecuritygroups);
-    } else if (value === "disks") {
-      setDisks(!disks);
-    } else if (value === "storageaccounts") {
-      setStorageAccounts(!storageaccounts);
-    } else if (value === "publicipaddresses") {
-      setPubliIP(!publicipaddresses);
-    } else if (value === "databases") {
-      setDatabases(!databases);
-    } else if (value === "servers") {
-      setServers(!servers);
-    } else if (value === "subnets") {
-      setSubnets(!subnets);
-    } else if (value === "loadbalancers") {
-      setLoadbalancers(!loadbalancers);
+  
+    if(prevChecked.indexOf(value)!=-1){
+      prevChecked = prevChecked.filter(function(item) {
+        return item !== value
+    })
+    }else{
+      prevChecked.push(value)
     }
+    console.log(prevChecked)
+    // if (value === "resourcegroups") {
+    //   setResourceGroups(!resourcegroups);
+    // } else if (value === "virtualmachines") {
+      
+    //   setVirtualMachines(!virtualmachines);
+    // } else if (value === "virtualnetworks") {
+      
+    //   setVirtualNetworks(!virtualnetworks);
+    // } else if (value === "networkinterfaces") {
+      
+    //   setNetworkInterfaces(!networkinterfaces);
+    // } else if (value === "networksecuritygroups") {
+      
+    //   setNSG(!networksecuritygroups);
+    // } else if (value === "disks") {
+     
+    //   setDisks(!disks);
+    // } else if (value === "storageaccounts") {
+      
+    //   setStorageAccounts(!storageaccounts);
+    // } else if (value === "publicipaddresses") {
+      
+    //   setPubliIP(!publicipaddresses);
+    // } else if (value === "databases") {
+      
+    //   setDatabases(!databases);
+    // } else if (value === "servers") {
+      
+    //   setServers(!servers);
+    // } else if (value === "subnets") {
+      
+    //   setSubnets(!subnets);
+    // } else if (value === "loadbalancers") {
+      
+    //   setLoadbalancers(!loadbalancers);
+    // }
+  };
+
+  const setname = (val) => {
+    Record.name = val;
+    setName(val);
   };
 
   const tp = (value) => {
@@ -227,8 +279,9 @@ const EditRegistration = () => {
                 <Input
                   name="name"
                   placeholder="Registration Name"
+                  value={Record?.name}
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setname(e.target.value);
                   }}
                   type="text"
                 />
@@ -254,7 +307,7 @@ const EditRegistration = () => {
               <FormGroup className="mb-2 me-sm-2 mb-sm-0 mt-3">
                 <Row className="form-check">
                   <Col className="col-md-1 col-sm-1">
-                    {prevChecked.indexOf("resourcegroups") != -1 ? (
+                    {/* {prevChecked.indexOf("resourcegroups") != -1 ? (
                       <Input
                         className="form-check-input"
                         checked
@@ -265,17 +318,18 @@ const EditRegistration = () => {
                         value="resourcegroups"
                         id="defaultCheck1"
                       />
-                    ) : (
+                    ) : ( */}
                       <Input
                         className="form-check-input"
                         onChange={(e) => {
                           set(e.target.value);
                         }}
+                        checked={prevChecked.indexOf("resourcegroups")!=1}
                         type="checkbox"
                         value="resourcegroups"
                         id="defaultCheck1"
                       />
-                    )}
+                    {/* )} */}
                   </Col>
                   <Col className="col-md-4 col-sm-4">
                     <Label className="form-check-label" for="defaultCheck1">
@@ -283,7 +337,7 @@ const EditRegistration = () => {
                     </Label>
                   </Col>
                   <Col className="col-md-1 col-sm-1">
-                    {prevChecked.indexOf("virtualmachines") != -1 ? (
+                    {prevChecked.indexOf("virtualmachines") != -1   ? (
                       <Input
                         className="form-check-input"
                         onChange={(e) => {
@@ -341,7 +395,7 @@ const EditRegistration = () => {
                     </Label>
                   </Col>
                   <Col className="col-md-1 col-sm-1">
-                    {prevChecked.indexOf("virtualnetworks") != -1 ? (
+                    {prevChecked.indexOf("networkinterfaces") != -1? (
                       <Input
                         className="form-check-input"
                         onChange={(e) => {
@@ -349,7 +403,7 @@ const EditRegistration = () => {
                         }}
                         checked
                         type="checkbox"
-                        value="virtualnetworks"
+                        value="networkinterfaces"
                         id="defaultCheck1"
                       />
                     ) : (
@@ -359,19 +413,11 @@ const EditRegistration = () => {
                           set(e.target.value);
                         }}
                         type="checkbox"
-                        value="virtualnetworks"
+                        value="networkinterfaces"
                         id="defaultCheck1"
                       />
                     )}
-                    <Input
-                      className="form-check-input"
-                      onChange={(e) => {
-                        set(e.target.value);
-                      }}
-                      type="checkbox"
-                      value="networkinterfaces"
-                      id="defaultCheck1"
-                    />
+
                   </Col>
                   <Col className="col-md-4 col-sm-4">
                     <Label className="form-check-label" for="defaultCheck1">
@@ -440,7 +486,7 @@ const EditRegistration = () => {
                     </Label>
                   </Col>
                   <Col className="col-md-1 col-sm-1">
-                    {prevChecked.indexOf("storageaccounts") != -1 ? (
+                    {prevChecked.indexOf("storageaccounts") != -1? (
                       <Input
                         className="form-check-input"
                         onChange={(e) => {
@@ -631,3 +677,124 @@ const EditRegistration = () => {
   }
 };
 export default EditRegistration;
+
+// class App extends Component {
+
+//   // Checkbox Initial State
+//   state = {
+//     isApple: false,
+//     isOrange: false,
+//     isBanana: false,
+//     isCherry: false,
+//     isAvocado: false
+//   };
+
+//   // React Checkboxes onChange Methods
+//   onChangeApple = () => {
+//     this.setState(initialState => ({
+//       isApple: !initialState.isApple,
+//     }));
+//   }
+
+//   onChangeOrange = () => {
+//     this.setState(initialState => ({
+//       isOrange: !initialState.isOrange,
+//     }));
+//   }
+
+//   onChangeBanana = () => {
+//     this.setState(initialState => ({
+//       isBanana: !initialState.isBanana,
+//     }));
+//   }
+
+//   onChangeCherry = () => {
+//     this.setState(initialState => ({
+//       isCherry: !initialState.isCherry,
+//     }));
+//   }
+
+//   onChangeAvocado = () => {
+//     this.setState(initialState => ({
+//       isAvocado: !initialState.isAvocado,
+//     }));
+//   }
+
+//   // Submit
+//   onSubmit = (e) => {
+//     e.preventDefault();
+//     console.log(this.state);
+//   }
+
+//   render() {
+//     return (
+//       <div className="App">
+//         <h2>Store Multiple Checkboxes Values in React</h2>
+//         <form onSubmit={this.onSubmit}>
+//           <div className="form-check">
+//             <label className="form-check-label">
+//               <input type="checkbox"
+//                 checked={this.state.isApple}
+//                 onChange={this.onChangeApple}
+//                 className="form-check-input"
+//               />
+//               Apple
+//             </label>
+//           </div>
+
+//           <div className="form-check">
+//             <label className="form-check-label">
+//               <input type="checkbox"
+//                 checked={this.state.isAvocado}
+//                 onChange={this.onChangeAvocado}
+//                 className="form-check-input"
+//               />
+//               Avocado
+//             </label>
+//           </div>
+
+//           <div className="form-check">
+//             <label className="form-check-label">
+//               <input type="checkbox"
+//                 checked={this.state.isBanana}
+//                 onChange={this.onChangeBanana}
+//                 className="form-check-input"
+//               />
+//               Banana
+//             </label>
+//           </div>
+
+//           <div className="form-check">
+//             <label className="form-check-label">
+//               <input type="checkbox"
+//                 checked={this.state.isCherry}
+//                 onChange={this.onChangeCherry}
+//                 className="form-check-input"
+//               />
+//               Cherry
+//             </label>
+//           </div>
+
+//           <div className="form-check">
+//             <label className="form-check-label">
+//               <input type="checkbox"
+//                 checked={this.state.isOrange}
+//                 onChange={this.onChangeOrange}
+//                 className="form-check-input"
+//               />
+//               Orange
+//             </label>
+//           </div>
+
+//           <div className="form-group">
+//             <button className="btn btn-success">
+//               Save
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     );
+//   }
+// }
+
+// export default App;
