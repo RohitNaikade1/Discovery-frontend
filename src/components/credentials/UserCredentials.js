@@ -24,7 +24,6 @@ const UserCredentials = () => {
     dispatch(userCredentialsFetch());
   }, []);
 
-
   const edit = (name) => {
     console.log(name);
 
@@ -67,39 +66,38 @@ const UserCredentials = () => {
 
   const Record = useSelector((state) => state.credentials);
 
-  
   let credentials = "";
-  if(Record.usercreds.data){
-    console.log(Record.usercreds.data)
+  if (Record.usercreds.data) {
+    console.log(Record.usercreds.data);
     credentials = Record.usercreds.data.map((name, key) => {
-        return (
-          <tr id={key}>
-            <td> {name.credsid} </td> <td> {name.provider} </td>{" "}
-            <td> {name.username} </td> <td> {name.subscriptionid} </td>{" "}
-            <td> {name.tenantid} </td>{" "}
-            <td>
-              <button
-                type="button"
-                onClick={(e) => {
-                  edit(name);
-                }}
-                className="btn btn-primary"
-              >
-                Edit{" "}
-              </button>{" "}
-              <button
-                type="button"
-                onClick={(e) => {
-                  deleteRec(name);
-                }}
-                className="ml-3 btn btn-danger"
-              >
-                Delete{" "}
-              </button>{" "}
-            </td>{" "}
-          </tr>
-        );
-      });
+      return (
+        <tr id={key}>
+          <td> {name.credsid} </td> <td> {name.provider} </td>{" "}
+          <td> {name.username} </td> <td> {name.subscriptionid} </td>{" "}
+          <td> {name.tenantid} </td>{" "}
+          <td>
+            <button
+              type="button"
+              onClick={(e) => {
+                edit(name);
+              }}
+              className="btn btn-primary"
+            >
+              Edit{" "}
+            </button>{" "}
+            <button
+              type="button"
+              onClick={(e) => {
+                deleteRec(name);
+              }}
+              className="ml-3 btn btn-danger"
+            >
+              Delete{" "}
+            </button>{" "}
+          </td>{" "}
+        </tr>
+      );
+    });
   }
   return (
     <div>
