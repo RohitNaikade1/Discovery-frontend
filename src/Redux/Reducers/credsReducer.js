@@ -3,7 +3,7 @@ import { constants } from "../Actions/constants";
 const initState = {
   credentials: {},
   cred: {},
-  usercreds :{}
+  usercreds: {},
 };
 
 export const credsReducer = (state = initState, action) => {

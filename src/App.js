@@ -1,6 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Routes, Route, Switch } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./components/login/Login";
 //import Header from './components/Header';
 import Admin from "./components/dashboard/Admin";
@@ -8,7 +8,6 @@ import User from "./components/dashboard/User";
 import AddUser from "./components/users/AddUser";
 import EditUser from "./components/users/EditUser";
 import UserList from "./components/users/UserList";
-import PrivateRouter from "./components/routes/PrivateRouter";
 import AddCredentials from "./components/credentials/AddCredentials";
 import CredentialsList from "./components/credentials/CredentailsList";
 import UserProfile from "./components/profile/UserProfile";
@@ -19,6 +18,8 @@ import AddRegistration from "./components/registration/AddRegistration";
 import EditRegistration from "./components/registration/EditRegistration";
 import UserCredentialsList from "./components/credentials/UserCredentialsList";
 import UserCredentials from "./components/credentials/UserCredentials";
+import UserRegistrationList from "./components/registration/UserRegistrationsList";
+import UserRegistrations from "./components/registration/UserRegistrations";
 function App() {
   return (
     <div className="App">
@@ -39,6 +40,8 @@ function App() {
         <Route path="editregistration/:id" element={<EditRegistration />} />
         <Route path="credslist" element={<UserCredentialsList/>}/>
         <Route path="usercreds" element={<UserCredentials/>}/>
+        <Route path="reglist" element={<UserRegistrationList/>}/>
+        <Route path="uregistrations" element ={<UserRegistrations/>}/>
       </Routes>
     </div>
   );

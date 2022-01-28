@@ -35,7 +35,6 @@ export const getReg = (id) => {
   };
 
   return async (dispatch) => {
-
     const registration = await axiosInstance.get(
       `servicediscovery/registration/${id}`,
       config
@@ -45,6 +44,29 @@ export const getReg = (id) => {
       dispatch({
         type: constants.GET_REG,
         payload: { registration },
+      });
+    }
+  };
+};
+
+export const getUserRegistration = () => {
+  var token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return async (dispatch) => {
+    const userRegistrationData = await axiosInstance.get(
+      "servicediscovery/registration/data",
+      config
+    );
+    // console.log(registrationData)
+    if (userRegistrationData.status === 200) {
+      dispatch({
+        type: constants.USER_REGISTRATIONS,
+        payload: { userRegistrationData },
       });
     }
   };

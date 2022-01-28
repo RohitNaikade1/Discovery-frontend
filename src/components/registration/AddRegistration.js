@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
 import {
   Row,
   Col,
@@ -10,6 +11,7 @@ import {
   Container,
 } from "reactstrap";
 import AdminHeader from "../headers/AdminHeader";
+import UserHeader from "../headers/UserHeader";
 import axiosInstance from "../../helpers/axios";
 import { isAuth } from "../../helpers/auth";
 import { Navigate } from "react-router-dom";
@@ -34,6 +36,10 @@ const AddRegistration = () => {
 
   const dispatch = useDispatch();
 
+  var token = localStorage.getItem("token");
+  var decoded = jwt_decode(token);
+  var user = decoded.role;
+
   useEffect(() => {
     dispatch(credentialsFetch());
   }, []);
@@ -41,7 +47,6 @@ const AddRegistration = () => {
 
   let credsId = "";
   if (Record?.data) {
-
     credsId = Record.data.map((data, key) => {
       return (
         <option value={data.credsid} defaultValue>
@@ -60,9 +65,9 @@ const AddRegistration = () => {
       },
       Categories: [],
     };
-    console.log()
-    if(data.Accounts.credsid===""){
-      data.Accounts.credsid=Record.data[0].credsid
+    console.log();
+    if (data.Accounts.credsid === "") {
+      data.Accounts.credsid = Record.data[0].credsid;
     }
     const management = {
       category: "management",
@@ -168,8 +173,8 @@ const AddRegistration = () => {
       .post("servicediscovery/registration", data, config)
       .then((res) => {
         console.log(res);
-        // History.push("/addregistration");
-        // window.location.reload();
+        History.push("/addregistration");
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -211,7 +216,7 @@ const AddRegistration = () => {
   if (isAuth()) {
     return (
       <Container fluid>
-        <AdminHeader/>
+        {user == "admin" ? <AdminHeader /> : <UserHeader />}
         <Row>
           <h2 className="mt-2">Add New Registration</h2>
         </Row>

@@ -147,6 +147,7 @@ const Profile = () => {
                     }}
                     placeholder="Username"
                     type="text"
+                    disabled="true"
                   />
                 </FormGroup>
 

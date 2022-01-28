@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Table,
-} from "reactstrap";
+import { Container, Table } from "reactstrap";
 import UserHeader from "../headers/UserHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { credentialsFetch } from "../../Redux/Actions/getCredentials";
-
 
 const UserCredentialsList = () => {
   const [show, setShow] = useState(false);

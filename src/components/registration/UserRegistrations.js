@@ -8,22 +8,22 @@ import {
   ModalFooter,
   Button,
 } from "reactstrap";
-import AdminHeader from "../headers/AdminHeader";
+import UserHeader from "../headers/UserHeader";
 import { isAuth, isAdmin, isUser } from "../../helpers/auth";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getRegistration } from "../../Redux/Actions/registrations";
+import { getUserRegistration } from "../../Redux/Actions/registrations";
 import History from "../../helpers/helpers";
 import axiosInstance from "../../helpers/axios";
 
-const UserList = () => {
+const UserRegistrations = () => {
   const [show, setShow] = useState(false);
   const [id, setId] = useState("");
   const [fname, setFname] = useState("");
   const [sname, setSname] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getRegistration());
+    dispatch(getUserRegistration());
   }, []);
 
   const edit = (name) => {
@@ -44,7 +44,7 @@ const UserList = () => {
       .delete(`servicediscovery/registration/${id}`, config)
       .then((res) => {
         console.log(res);
-        History.push("/registrationlist");
+        History.push("/uregistrations");
         window.location.reload();
       })
       .catch((err) => {
@@ -65,7 +65,7 @@ const UserList = () => {
     setShow(false);
   };
 
-  const Record = useSelector((state) => state.registrations.registrations);
+  const Record = useSelector((state) => state.registrations.userReg);
   console.log(Record.data);
   let registrations = "";
   if (Record?.data) {
@@ -111,58 +111,51 @@ const UserList = () => {
     });
   }
 
-  if (isAuth() && isAdmin()) {
-    return (
-      <div>
-        <Modal
-          isOpen={show}
+  return (
+    <div>
+      <Modal
+        isOpen={show}
+        toggle={(e) => {
+          closeModal();
+        }}
+      >
+        <ModalHeader
           toggle={(e) => {
             closeModal();
           }}
         >
-          <ModalHeader
-            toggle={(e) => {
-              closeModal();
+          Alert
+        </ModalHeader>
+        <ModalBody>
+          Want to delete a record of {fname} {sname} ?
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="primary"
+            onClick={(e) => {
+              deleteRecord();
             }}
           >
-            Alert
-          </ModalHeader>
-          <ModalBody>
-            Want to delete a record of {fname} {sname} ?
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={(e) => {
-                deleteRecord();
-              }}
-            >
-              Yes
-            </Button>{" "}
-            <Button onClick={closeModal}>No</Button>
-          </ModalFooter>
-        </Modal>
+            Yes
+          </Button>{" "}
+          <Button onClick={closeModal}>No</Button>
+        </ModalFooter>
+      </Modal>
 
-        <Container fluid>
-          <AdminHeader />
-          <Table className="mt-3 table-striped">
-            <thead>
-              <th>Sr.No</th>
-              <th>Registration Name</th>
-              <th>Credential ID</th>
-              <th>Resources</th>
-              <th>Actions</th>
-            </thead>
-            <tbody>{registrations}</tbody>
-          </Table>
-        </Container>
-      </div>
-    );
-  } else if (isAuth() && isUser()) {
-    return <Navigate to="/user" />;
-  } else {
-    return <Navigate to="/" />;
-  }
+      <Container fluid>
+        <UserHeader />
+        <Table className="mt-3 table-striped">
+          <thead>
+            <th>Sr.No</th>
+            <th>Registration Name</th>
+            <th>Credential ID</th>
+            <th>Resources</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>{registrations}</tbody>
+        </Table>
+      </Container>
+    </div>
+  );
 };
-
-export default UserList;
+export default UserRegistrations;

@@ -59,8 +59,14 @@ const Header = () => {
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  <NavLink className="text-dark" href="">
+                  <NavLink className="text-dark" href="reglist">
                     List
+                  </NavLink>
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                  <NavLink className="text-dark" href="/uregistrations">
+                    Your Registrations
                   </NavLink>
                 </DropdownItem>
               </DropdownMenu>

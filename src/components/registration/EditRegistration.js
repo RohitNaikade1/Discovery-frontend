@@ -1,4 +1,4 @@
-import React, { Component,useState, useEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -35,8 +35,8 @@ const EditRegistration = () => {
   const [servers, setServers] = useState(false);
   const [subnets, setSubnets] = useState(false);
   const [loadbalancers, setLoadbalancers] = useState(false);
-  var prevChecked=[]
-  const [check,setCheck] = useState(true);
+  var prevChecked = [];
+  const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,10 +45,9 @@ const EditRegistration = () => {
   }, []);
   const Record = useSelector((state) => state.registrations.editReg.data);
   const creds = useSelector((state) => state.credentials.credentials);
-
+  console.log(Record);
   let credsId = "";
   if (creds?.data) {
-    
     credsId = creds.data.map((data, key) => {
       return (
         <option value={data.credsid} defaultValue>
@@ -56,24 +55,18 @@ const EditRegistration = () => {
         </option>
       );
     });
-
   }
 
-  if (Record ) {
-
+  if (Record) {
     Record.Categories.map((f1, key) => {
-
       f1.Resource_info.resources.map((f2, key) => {
-        console.log(f2)
+        console.log(f2);
         prevChecked.push(f2);
-
       });
     });
-    
   }
 
   const handle = () => {
-
     const data = {
       name: name,
       url: "/servicediscovery/cloudresources/azure/service/",
@@ -83,12 +76,12 @@ const EditRegistration = () => {
       Categories: [],
     };
 
-    if(data.name===""){
-      data.name=Record.name
+    if (data.name === "") {
+      data.name = Record.name;
     }
-    console.log(Record)
-    if(data.Accounts.credsid===""){
-      data.Accounts.credsid=Record.Accounts.credsid
+    console.log(Record);
+    if (data.Accounts.credsid === "") {
+      data.Accounts.credsid = Record.Accounts.credsid;
     }
 
     const management = {
@@ -183,7 +176,6 @@ const EditRegistration = () => {
       data.Categories.push(compute);
     }
 
-
     var token = localStorage.getItem("token");
     console.log(data);
 
@@ -196,8 +188,8 @@ const EditRegistration = () => {
       .put(`servicediscovery/registration/${Record._id}`, data, config)
       .then((res) => {
         console.log(res);
-        // History.push("/registrationlist");
-        // window.location.reload();
+        History.push("/registrationlist");
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -205,51 +197,39 @@ const EditRegistration = () => {
   };
 
   const set = (value) => {
-  
-    if(prevChecked.indexOf(value)!=-1){
-      prevChecked = prevChecked.filter(function(item) {
-        return item !== value
-    })
-    }else{
-      prevChecked.push(value)
+    if (prevChecked.indexOf(value) != -1) {
+      prevChecked = prevChecked.filter(function (item) {
+        return item !== value;
+      });
+    } else {
+      prevChecked.push(value);
     }
-    console.log(prevChecked)
-    // if (value === "resourcegroups") {
-    //   setResourceGroups(!resourcegroups);
-    // } else if (value === "virtualmachines") {
-      
-    //   setVirtualMachines(!virtualmachines);
-    // } else if (value === "virtualnetworks") {
-      
-    //   setVirtualNetworks(!virtualnetworks);
-    // } else if (value === "networkinterfaces") {
-      
-    //   setNetworkInterfaces(!networkinterfaces);
-    // } else if (value === "networksecuritygroups") {
-      
-    //   setNSG(!networksecuritygroups);
-    // } else if (value === "disks") {
-     
-    //   setDisks(!disks);
-    // } else if (value === "storageaccounts") {
-      
-    //   setStorageAccounts(!storageaccounts);
-    // } else if (value === "publicipaddresses") {
-      
-    //   setPubliIP(!publicipaddresses);
-    // } else if (value === "databases") {
-      
-    //   setDatabases(!databases);
-    // } else if (value === "servers") {
-      
-    //   setServers(!servers);
-    // } else if (value === "subnets") {
-      
-    //   setSubnets(!subnets);
-    // } else if (value === "loadbalancers") {
-      
-    //   setLoadbalancers(!loadbalancers);
-    // }
+    console.log(prevChecked);
+    if (value === "resourcegroups") {
+      setResourceGroups(!resourcegroups);
+    } else if (value === "virtualmachines") {
+      setVirtualMachines(!virtualmachines);
+    } else if (value === "virtualnetworks") {
+      setVirtualNetworks(!virtualnetworks);
+    } else if (value === "networkinterfaces") {
+      setNetworkInterfaces(!networkinterfaces);
+    } else if (value === "networksecuritygroups") {
+      setNSG(!networksecuritygroups);
+    } else if (value === "disks") {
+      setDisks(!disks);
+    } else if (value === "storageaccounts") {
+      setStorageAccounts(!storageaccounts);
+    } else if (value === "publicipaddresses") {
+      setPubliIP(!publicipaddresses);
+    } else if (value === "databases") {
+      setDatabases(!databases);
+    } else if (value === "servers") {
+      setServers(!servers);
+    } else if (value === "subnets") {
+      setSubnets(!subnets);
+    } else if (value === "loadbalancers") {
+      setLoadbalancers(!loadbalancers);
+    }
   };
 
   const setname = (val) => {
@@ -319,16 +299,16 @@ const EditRegistration = () => {
                         id="defaultCheck1"
                       />
                     ) : ( */}
-                      <Input
-                        className="form-check-input"
-                        onChange={(e) => {
-                          set(e.target.value);
-                        }}
-                        checked={prevChecked.indexOf("resourcegroups")!=1}
-                        type="checkbox"
-                        value="resourcegroups"
-                        id="defaultCheck1"
-                      />
+                    <Input
+                      className="form-check-input"
+                      onChange={(e) => {
+                        set(e.target.value);
+                      }}
+                      checked={prevChecked.indexOf("resourcegroups") != 1}
+                      type="checkbox"
+                      value="resourcegroups"
+                      id="defaultCheck1"
+                    />
                     {/* )} */}
                   </Col>
                   <Col className="col-md-4 col-sm-4">
@@ -337,7 +317,7 @@ const EditRegistration = () => {
                     </Label>
                   </Col>
                   <Col className="col-md-1 col-sm-1">
-                    {prevChecked.indexOf("virtualmachines") != -1   ? (
+                    {prevChecked.indexOf("virtualmachines") != -1 ? (
                       <Input
                         className="form-check-input"
                         onChange={(e) => {
@@ -395,7 +375,7 @@ const EditRegistration = () => {
                     </Label>
                   </Col>
                   <Col className="col-md-1 col-sm-1">
-                    {prevChecked.indexOf("networkinterfaces") != -1? (
+                    {prevChecked.indexOf("networkinterfaces") != -1 ? (
                       <Input
                         className="form-check-input"
                         onChange={(e) => {
@@ -417,7 +397,6 @@ const EditRegistration = () => {
                         id="defaultCheck1"
                       />
                     )}
-
                   </Col>
                   <Col className="col-md-4 col-sm-4">
                     <Label className="form-check-label" for="defaultCheck1">
@@ -486,7 +465,7 @@ const EditRegistration = () => {
                     </Label>
                   </Col>
                   <Col className="col-md-1 col-sm-1">
-                    {prevChecked.indexOf("storageaccounts") != -1? (
+                    {prevChecked.indexOf("storageaccounts") != -1 ? (
                       <Input
                         className="form-check-input"
                         onChange={(e) => {
